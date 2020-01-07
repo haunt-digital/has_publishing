@@ -6,12 +6,12 @@ module HasPublishing
     # you must explicitly use .unscoped to remove the default scope.
 
     def default_scope
-      return all if HasPublishing.config.scope_records == false
+      return -> { all } if HasPublishing.config.scope_records == false
 
       if Rails.env == (HasPublishing.config.published_rails_environment)
-        published
+        -> { published }
       else
-        draft
+        -> { draft }
       end
     end
   end
